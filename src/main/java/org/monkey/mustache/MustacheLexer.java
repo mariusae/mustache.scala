@@ -1,4 +1,4 @@
-// $ANTLR 3.3 Nov 30, 2010 12:50:56 Mustache.g 2011-02-14 11:37:01
+// $ANTLR 3.3 Nov 30, 2010 12:50:56 Mustache.g 2011-02-21 10:54:31
 
 package org.monkey.mustache;
 
@@ -38,8 +38,8 @@ public class MustacheLexer extends Lexer {
         try {
             int _type = Lstache;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mustache.g:61:9: ( '{{' )
-            // Mustache.g:61:11: '{{'
+            // Mustache.g:62:9: ( '{{' )
+            // Mustache.g:62:11: '{{'
             {
             match("{{"); 
 
@@ -60,8 +60,8 @@ public class MustacheLexer extends Lexer {
         try {
             int _type = Rstache;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mustache.g:62:9: ( '}}' )
-            // Mustache.g:62:11: '}}'
+            // Mustache.g:63:9: ( '}}' )
+            // Mustache.g:63:11: '}}'
             {
             match("}}"); 
 
@@ -82,13 +82,13 @@ public class MustacheLexer extends Lexer {
         try {
             int _type = Id;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mustache.g:63:4: ({...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' )+ )
-            // Mustache.g:63:6: {...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' )+
+            // Mustache.g:64:9: ({...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' )+ )
+            // Mustache.g:64:11: {...}? => ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' )+
             {
             if ( !(( inTag )) ) {
                 throw new FailedPredicateException(input, "Id", " inTag ");
             }
-            // Mustache.g:63:19: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' )+
+            // Mustache.g:64:24: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' )+
             int cnt1=0;
             loop1:
             do {
@@ -142,8 +142,8 @@ public class MustacheLexer extends Lexer {
         try {
             int _type = Slash;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mustache.g:64:7: ({...}? => '/' )
-            // Mustache.g:64:9: {...}? => '/'
+            // Mustache.g:65:9: ({...}? => '/' )
+            // Mustache.g:65:11: {...}? => '/'
             {
             if ( !(( inTag )) ) {
                 throw new FailedPredicateException(input, "Slash", " inTag ");
@@ -165,8 +165,8 @@ public class MustacheLexer extends Lexer {
         try {
             int _type = Hash;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mustache.g:65:6: ({...}? => '#' )
-            // Mustache.g:65:8: {...}? => '#'
+            // Mustache.g:66:9: ({...}? => '#' )
+            // Mustache.g:66:11: {...}? => '#'
             {
             if ( !(( inTag )) ) {
                 throw new FailedPredicateException(input, "Hash", " inTag ");
@@ -188,13 +188,13 @@ public class MustacheLexer extends Lexer {
         try {
             int _type = Data;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Mustache.g:66:6: ({...}? => (~ '{' )+ )
-            // Mustache.g:66:8: {...}? => (~ '{' )+
+            // Mustache.g:67:9: ({...}? => (~ '{' )+ )
+            // Mustache.g:67:11: {...}? => (~ '{' )+
             {
             if ( !(( !inTag )) ) {
                 throw new FailedPredicateException(input, "Data", " !inTag ");
             }
-            // Mustache.g:66:22: (~ '{' )+
+            // Mustache.g:67:25: (~ '{' )+
             int cnt2=0;
             loop2:
             do {
@@ -208,7 +208,7 @@ public class MustacheLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // Mustache.g:66:23: ~ '{'
+            	    // Mustache.g:67:26: ~ '{'
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='z')||(input.LA(1)>='|' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();

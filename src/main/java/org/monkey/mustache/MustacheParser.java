@@ -1,4 +1,4 @@
-// $ANTLR 3.3 Nov 30, 2010 12:50:56 Mustache.g 2011-02-14 11:37:01
+// $ANTLR 3.3 Nov 30, 2010 12:50:56 Mustache.g 2011-02-21 10:54:31
 
 package org.monkey.mustache;
 import java.util.HashMap;
@@ -49,8 +49,9 @@ public class MustacheParser extends Parser {
     public String getGrammarFileName() { return "Mustache.g"; }
 
 
-    public Context context = new Context();
-    public Node root = new RootNode();
+    // Filled in by caller?
+    public NodeFactory nodeFactory;
+    public Node root;
 
 
     public static class toplevel_return extends ParserRuleReturnScope {
@@ -59,7 +60,7 @@ public class MustacheParser extends Parser {
     };
 
     // $ANTLR start "toplevel"
-    // Mustache.g:25:1: toplevel : document EOF ;
+    // Mustache.g:26:1: toplevel : document EOF ;
     public final MustacheParser.toplevel_return toplevel() throws RecognitionException {
         MustacheParser.toplevel_return retval = new MustacheParser.toplevel_return();
         retval.start = input.LT(1);
@@ -73,8 +74,8 @@ public class MustacheParser extends Parser {
         Object EOF2_tree=null;
 
         try {
-            // Mustache.g:25:10: ( document EOF )
-            // Mustache.g:25:12: document EOF
+            // Mustache.g:26:10: ( document EOF )
+            // Mustache.g:26:12: document EOF
             {
             root_0 = (Object)adaptor.nil();
 
@@ -115,7 +116,7 @@ public class MustacheParser extends Parser {
     };
 
     // $ANTLR start "document"
-    // Mustache.g:27:1: document : ( body | mustache )* ;
+    // Mustache.g:28:1: document : ( body | mustache )* ;
     public final MustacheParser.document_return document() throws RecognitionException {
         MustacheParser.document_return retval = new MustacheParser.document_return();
         retval.start = input.LT(1);
@@ -129,12 +130,12 @@ public class MustacheParser extends Parser {
 
 
         try {
-            // Mustache.g:27:10: ( ( body | mustache )* )
-            // Mustache.g:28:5: ( body | mustache )*
+            // Mustache.g:28:10: ( ( body | mustache )* )
+            // Mustache.g:29:5: ( body | mustache )*
             {
             root_0 = (Object)adaptor.nil();
 
-            // Mustache.g:28:5: ( body | mustache )*
+            // Mustache.g:29:5: ( body | mustache )*
             loop1:
             do {
                 int alt1=3;
@@ -156,7 +157,7 @@ public class MustacheParser extends Parser {
 
                 switch (alt1) {
             	case 1 :
-            	    // Mustache.g:28:7: body
+            	    // Mustache.g:29:7: body
             	    {
             	    pushFollow(FOLLOW_body_in_document72);
             	    body3=body();
@@ -168,7 +169,7 @@ public class MustacheParser extends Parser {
             	    }
             	    break;
             	case 2 :
-            	    // Mustache.g:29:7: mustache
+            	    // Mustache.g:30:7: mustache
             	    {
             	    pushFollow(FOLLOW_mustache_in_document80);
             	    mustache4=mustache();
@@ -212,7 +213,7 @@ public class MustacheParser extends Parser {
     };
 
     // $ANTLR start "body"
-    // Mustache.g:32:1: body : Data ;
+    // Mustache.g:33:1: body : Data ;
     public final MustacheParser.body_return body() throws RecognitionException {
         MustacheParser.body_return retval = new MustacheParser.body_return();
         retval.start = input.LT(1);
@@ -224,8 +225,8 @@ public class MustacheParser extends Parser {
         Object Data5_tree=null;
 
         try {
-            // Mustache.g:32:6: ( Data )
-            // Mustache.g:32:8: Data
+            // Mustache.g:33:6: ( Data )
+            // Mustache.g:33:8: Data
             {
             root_0 = (Object)adaptor.nil();
 
@@ -233,7 +234,7 @@ public class MustacheParser extends Parser {
             Data5_tree = (Object)adaptor.create(Data5);
             adaptor.addChild(root_0, Data5_tree);
 
-             root.addChild(new DataNode((Data5!=null?Data5.getText():null))); 
+             root.addChild(nodeFactory.newDataNode((Data5!=null?Data5.getText():null))); 
 
             }
 
@@ -261,7 +262,7 @@ public class MustacheParser extends Parser {
     };
 
     // $ANTLR start "mustache"
-    // Mustache.g:34:1: mustache : ( interpolation | iteration );
+    // Mustache.g:35:1: mustache : ( interpolation | iteration );
     public final MustacheParser.mustache_return mustache() throws RecognitionException {
         MustacheParser.mustache_return retval = new MustacheParser.mustache_return();
         retval.start = input.LT(1);
@@ -275,7 +276,7 @@ public class MustacheParser extends Parser {
 
 
         try {
-            // Mustache.g:35:5: ( interpolation | iteration )
+            // Mustache.g:36:5: ( interpolation | iteration )
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -303,7 +304,7 @@ public class MustacheParser extends Parser {
             }
             switch (alt2) {
                 case 1 :
-                    // Mustache.g:35:7: interpolation
+                    // Mustache.g:36:7: interpolation
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -317,7 +318,7 @@ public class MustacheParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // Mustache.g:36:7: iteration
+                    // Mustache.g:37:7: iteration
                     {
                     root_0 = (Object)adaptor.nil();
 
@@ -356,7 +357,7 @@ public class MustacheParser extends Parser {
     };
 
     // $ANTLR start "interpolation"
-    // Mustache.g:39:1: interpolation : Lstache Id Rstache ;
+    // Mustache.g:40:1: interpolation : Lstache Id Rstache ;
     public final MustacheParser.interpolation_return interpolation() throws RecognitionException {
         MustacheParser.interpolation_return retval = new MustacheParser.interpolation_return();
         retval.start = input.LT(1);
@@ -372,8 +373,8 @@ public class MustacheParser extends Parser {
         Object Rstache10_tree=null;
 
         try {
-            // Mustache.g:40:5: ( Lstache Id Rstache )
-            // Mustache.g:40:7: Lstache Id Rstache
+            // Mustache.g:41:5: ( Lstache Id Rstache )
+            // Mustache.g:41:7: Lstache Id Rstache
             {
             root_0 = (Object)adaptor.nil();
 
@@ -396,7 +397,7 @@ public class MustacheParser extends Parser {
                     //     input, "context", "!context.containsKey(" + key + ")");
                     // }
 
-                    root.addChild(new InterpolationNode(key));
+                    root.addChild(nodeFactory.newInterpolationNode(key));
                   
 
             }
@@ -425,7 +426,7 @@ public class MustacheParser extends Parser {
     };
 
     // $ANTLR start "iteration"
-    // Mustache.g:51:1: iteration : Lstache Hash id= Id Rstache document Lstache Slash Id Rstache ;
+    // Mustache.g:52:1: iteration : Lstache Hash id= Id Rstache document Lstache Slash Id Rstache ;
     public final MustacheParser.iteration_return iteration() throws RecognitionException {
         MustacheParser.iteration_return retval = new MustacheParser.iteration_return();
         retval.start = input.LT(1);
@@ -453,8 +454,8 @@ public class MustacheParser extends Parser {
         Object Rstache18_tree=null;
 
         try {
-            // Mustache.g:52:5: ( Lstache Hash id= Id Rstache document Lstache Slash Id Rstache )
-            // Mustache.g:52:7: Lstache Hash id= Id Rstache document Lstache Slash Id Rstache
+            // Mustache.g:53:5: ( Lstache Hash id= Id Rstache document Lstache Slash Id Rstache )
+            // Mustache.g:53:7: Lstache Hash id= Id Rstache document Lstache Slash Id Rstache
             {
             root_0 = (Object)adaptor.nil();
 
@@ -476,7 +477,7 @@ public class MustacheParser extends Parser {
 
 
                     Node oldRoot = root;
-                    root = new IterationNode((id!=null?id.getText():null));
+                    root = nodeFactory.newIterationNode((id!=null?id.getText():null));
                   
             pushFollow(FOLLOW_document_in_iteration169);
             document14=document();

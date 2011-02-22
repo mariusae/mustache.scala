@@ -10,8 +10,9 @@ import java.util.HashMap;
 }
 
 @members {
-public Context context = new Context();
-public Node root = new RootNode();
+// Filled in by caller?
+public NodeFactory nodeFactory;
+public Node root;
 }
 
 @lexer::header {
@@ -29,7 +30,7 @@ document :
     | mustache
     )*;
 
-body : Data { root.addChild(new DataNode($Data.text)); };
+body : Data { root.addChild(nodeFactory.newDataNode($Data.text)); };
 
 mustache
     : interpolation
@@ -44,14 +45,14 @@ interpolation
         //     input, "context", "!context.containsKey(" + key + ")");
         // }
 
-        root.addChild(new InterpolationNode(key));
+        root.addChild(nodeFactory.newInterpolationNode(key));
       }
     ;
 
 iteration
     : Lstache Hash id=Id Rstache {
         Node oldRoot = root;
-        root = new IterationNode($id.text);
+        root = nodeFactory.newIterationNode($id.text);
       } document Lstache Slash Id Rstache {
         oldRoot.addChild(root);
         root = oldRoot;
@@ -60,7 +61,7 @@ iteration
 
 Lstache : '{{' { inTag = true; } ;
 Rstache : '}}' { inTag = false; } ;
-Id : { inTag }?=> ('a'..'z' | 'A'..'Z' | '_' | '.')+ ;
-Slash : { inTag }?=> '/' ;
-Hash : { inTag }?=> '#' ;
-Data : { !inTag }?=> (~'{')+ ;
+Id      : { inTag }?=> ('a'..'z' | 'A'..'Z' | '_' | '.')+ ;
+Slash   : { inTag }?=> '/' ;
+Hash    : { inTag }?=> '#' ;
+Data    : { !inTag }?=> (~'{')+ ;
