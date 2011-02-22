@@ -17,7 +17,7 @@ import org.antlr.runtime._
 class Mustache(source: Source) {
   private[this] val root = {
     // TODO: implement an ANTLR CharStream directly from Source.
-    val stream = new ANTLRStringStream(source.toString)
+    val stream = new ANTLRStringStream(source.mkString)
     val lexer  = new MustacheLexer(stream)
     val tokens = new CommonTokenStream(lexer)
     val parser = new MustacheParser(tokens)
@@ -32,5 +32,5 @@ class Mustache(source: Source) {
   /**
    * Evaluates this mustache relative to the passed-in dictionary.
    */
-  def apply(dictionary: Dictionary) = Eval(root, dictionary)
+  def apply(dictionary: Dictionary): String = Eval(root, dictionary)
 }
