@@ -23,9 +23,9 @@ object Eval {
         } mkString
 
       case InterpolationNode(name) =>
-        val data = dictionary(name) flatMap {
+        val data = dictionary(name) match {
           case Data(data) => Some(data)
-          case Dictionaries(_) => None
+          case Dictionaries(_) | NoValue => None
         }
 
         data getOrElse ""

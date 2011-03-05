@@ -39,13 +39,7 @@ mustache
 
 interpolation
     : Lstache Id Rstache {
-        String key = $Id.text;
-        // if (!context.containsKey(key)) {
-        //   throw new FailedPredicateException(
-        //     input, "context", "!context.containsKey(" + key + ")");
-        // }
-
-        root.addChild(nodeFactory.newInterpolationNode(key));
+        root.addChild(nodeFactory.newInterpolationNode($Id.text));
       }
     ;
 
