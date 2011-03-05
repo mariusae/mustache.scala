@@ -7,7 +7,8 @@ class MustacheScalaProject(info: ProjectInfo)
 {
   override def compileOrder = CompileOrder.JavaThenScala
 
-  val antlr = "org.antlr" % "antlr" % "3.3"
+  val antlr       = "org.antlr"    % "antlr"        % "3.3"
+  val commonsLang = "commons-lang" % "commons-lang" % "2.6"
 
   // Test-only:
   val specs = "org.scala-tools.testing" % "specs_2.8.0" % "1.6.5" % "test"

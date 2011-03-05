@@ -7,7 +7,12 @@ package org.monkey.mustache
 import scala.collection.JavaConversions._
 import scala.collection.immutable
 
+import org.apache.commons.lang.StringEscapeUtils
+
 object Eval {
+  private[this] def escape(s: String): String =
+    StringEscapeUtils.escapeHtml(s)
+
   /**
    * Evaluate the AST given by @node@ relative to the dictionary in
    * @dictionary@.
@@ -22,13 +27,13 @@ object Eval {
           node map (Eval(_, dictionary))
         } mkString
 
-      case InterpolationNode(name) =>
+      case InterpolationNode(name, doEscape) =>
         val data = dictionary(name) match {
-          case Data(data) => Some(data)
-          case Dictionaries(_) | NoValue => None
+          case Data(data) => data
+          case Dictionaries(_) | NoValue => ""
         }
 
-        data getOrElse ""
+        if (doEscape) escape(data) else data
 
       case DataNode(data) => data
     }
