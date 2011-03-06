@@ -35,7 +35,9 @@ body : Data { root.addChild(nodeFactory.newDataNode($Data.text)); };
 mustache
     : interpolation
     | unescapedInterpolation
-    | iteration
+    | section
+    | invertedSection
+    | comment
     ;
 
 unescapedInterpolation
@@ -54,15 +56,31 @@ interpolation
       }
     ;
 
-iteration
+section
     : LL Hash id=Id RR {
         Node oldRoot = root;
-        root = nodeFactory.newIterationNode($id.text);
+        root = nodeFactory.newSectionNode($id.text);
       } document LL Slash Id RR {
+        // TODO: check ids.
         oldRoot.addChild(root);
         root = oldRoot;
       }
     ; 
+
+invertedSection
+    : LL Hat id=Id RR {
+        Node oldRoot = root;
+        root = nodeFactory.newInvertedSectionNode($id.text);
+      } document LL Slash Id RR {
+        // TODO: check ids.
+        oldRoot.addChild(root);
+        root = oldRoot;
+      }
+    ; 
+
+comment
+	: LL Bang .* RR  // Ignore.
+    ;
 
 LLL : '{{{' { inTag = true; } ;
 RRR : '}}}' { inTag = false; } ;
@@ -72,6 +90,9 @@ Id    : { inTag }?=> ('a'..'z' | 'A'..'Z' | '_' | '.')+ ;
 Slash : { inTag }?=> '/' ;
 Hash  : { inTag }?=> '#' ;
 Amp	  : { inTag }?=> '&' ;
+Hat	  : { inTag }?=> '^' ;
+Bang  : { inTag }?=> '!' ;
 Ws	  : { inTag }?=> ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+
         { $channel = HIDDEN; };
+
 Data  : { !inTag }?=> (~'{')+ ;

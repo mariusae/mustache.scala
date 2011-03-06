@@ -24,16 +24,19 @@ case class Dictionary private(
   def data(name: String, value: String) =
     copy(mappings = mappings + (name -> Data(value)))
 
+  def bool(name: String, value: Boolean) =
+    copy(mappings = mappings + (name -> Bool(value)))
+
   /**
    * Add a dictionary with the key @name@. There may be multiple
    * dictionaries with the same name.
    */
   def dictionary(name: String, value: Dictionary) =
     this(name) match {
-      case NoValue | Data(_) =>
-        copy(mappings = mappings + (name -> Dictionaries(Seq(value))))
       case Dictionaries(dicts) =>
         copy(mappings = mappings + (name -> Dictionaries(dicts ++ Seq(value))))
+      case _ =>
+        copy(mappings = mappings + (name -> Dictionaries(Seq(value))))
     }
 
   /**
@@ -73,16 +76,16 @@ sealed trait Value {
   def getData = this match {
     case Dictionaries(_) => None
     case v@Data(_) => Some(v)
-    case NoValue => None
+    case _ => None
   }
   
   def getDictionaries = this match {
     case d@Dictionaries(_) => Some(d)
-    case Data(_) => None
-    case NoValue => None
+    case _ => None
   }
 }
 
 case object NoValue extends Value
 case class Data(data: String) extends Value
+case class Bool(value: Boolean) extends Value
 case class Dictionaries(dictionaries: Seq[Dictionary]) extends Value

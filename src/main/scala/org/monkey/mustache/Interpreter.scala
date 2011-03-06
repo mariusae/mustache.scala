@@ -22,15 +22,32 @@ object Eval {
       case RootNode() =>
         node map { Eval(_, dictionary) } mkString
 
-      case IterationNode(name) =>
-        dictionary.push(name) flatMap { dictionary =>
-          node map (Eval(_, dictionary))
-        } mkString
+      case SectionNode(name) =>
+        dictionary(name) match {
+          case Dictionaries(_) =>
+            dictionary.push(name) flatMap { dictionary =>
+              node map (Eval(_, dictionary))
+            } mkString
+
+          case Bool(true) | Data(_) =>
+            node map (Eval(_, dictionary)) mkString
+
+          case Bool(false) | NoValue=>
+            ""
+        }
+
+      case InvertedSectionNode(name) =>
+        dictionary(name) match {
+          case NoValue | Bool(false) =>
+            node map (Eval(_, dictionary)) mkString
+          case _ =>
+            ""
+        }
 
       case InterpolationNode(name, doEscape) =>
         val data = dictionary(name) match {
           case Data(data) => data
-          case Dictionaries(_) | NoValue => ""
+          case _ => ""
         }
 
         if (doEscape) escape(data) else data

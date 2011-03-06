@@ -25,8 +25,13 @@ case class RootNode() extends AbstractNode {
   override def toString = "Root(%s)".format(super.toString)
 }
 
-case class IterationNode(name: String) extends AbstractNode {
-  override def toString = "IterationNode(%s, %s)".format(name, super.toString)
+case class SectionNode(name: String) extends AbstractNode {
+  override def toString = "SectionNode(%s, %s)".format(name, super.toString)
+}
+
+case class InvertedSectionNode(name: String) extends AbstractNode {
+  override def toString =
+    "InvertedSectionNode(%s, %s)".format(name, super.toString)
 }
 
 case class InterpolationNode(name: String, escape: Boolean)
@@ -42,8 +47,10 @@ case class DataNode(data: String) extends AbstractNode {
 }
 
 object TheNodeFactory extends NodeFactory {
-  def newIterationNode(name: String) =
-    IterationNode(name)
+  def newSectionNode(name: String) =
+    SectionNode(name)
+  def newInvertedSectionNode(name: String) =
+    InvertedSectionNode(name)
   def newInterpolationNode(name: String) =
     InterpolationNode(name, true)
   def newUnescapedInterpolationNode(name: String) =
