@@ -86,6 +86,18 @@ object MustacheSpec extends Specification {
       (eval("{{variable}}{{#d}}{{variable}}{{/d}}{{variable}}", d)
        must be_==("0100"))
     }
+
+    "support nested sections" in {
+      val d = Dictionary()
+        .data("x", "X")
+        .dictionary("dict", Dictionary()
+          .data("y", "Y")
+          .dictionary("dict", Dictionary()
+            .data("y", "WTF")))
+
+      (eval("{{#dict}}{{x}}{{y}}{{#dict}}{{y}}{{x}}{{/dict}}{{y}}{{/dict}}", d)
+       must be_==("XYWTFXY"))
+    }
   }
 
   "inverted sections" should {
