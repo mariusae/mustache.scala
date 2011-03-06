@@ -33,3 +33,15 @@ The string is then rendered with `Mustache.apply`
         
     scala> mustache(d)
     res4: String = hello, world! yes?iter0iter1
+
+# development
+
+`mustache.scala` uses [ANTLR](http://www.antlr.org/) for parsing. This
+requires source files to be generated. Thus, the slightly modified
+`sbt` routine is necessary:
+
+    $ sbt update
+    $ sbt compile-antlr
+
+This only needs to be run initially, and whenever the grammar has
+changed (`src/main/antlr/Mustache.g`).
