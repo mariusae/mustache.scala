@@ -1,3 +1,4 @@
+import java.io.File
 import sbt._
 import com.twitter.sbt._
 
@@ -5,6 +6,8 @@ class MustacheScalaProject(info: ProjectInfo)
   extends StandardProject(info)
   with DefaultRepos
 {
+  lazy val publishTo = Resolver.file("local-repo", new File("publish"))
+
   override def compileOrder = CompileOrder.JavaThenScala
 
   val antlr       = "org.antlr"    % "antlr"        % "3.3"
