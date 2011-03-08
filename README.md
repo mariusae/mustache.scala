@@ -2,7 +2,7 @@
 
 `mustache.scala` is an implementation of
 [mustache](http://mustache.github.com/) for Scala. It does not at
-present support partial templates or custom delimiters.
+present support custom delimiters.
 
 To render a template, a `Mustache` object must first be
 instantiated. This takes a `scala.io.Source`, which has many
