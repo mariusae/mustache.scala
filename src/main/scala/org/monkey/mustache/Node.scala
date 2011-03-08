@@ -8,7 +8,7 @@ package org.monkey.mustache
 import collection.JavaConversions._
 import collection.mutable.ArrayBuffer
 
-abstract class AbstractNode extends Node {
+sealed abstract class AbstractNode extends Node {
   private[this] val children = new ArrayBuffer[Node]
 
   def addChild(child: Node) {
@@ -41,6 +41,10 @@ case class InterpolationNode(name: String, escape: Boolean)
     "InterpolationNode(%s, escape=%s, %s)".format(name, escape, super.toString)
 }
 
+case class PartialNode(name: String) extends AbstractNode {
+  override def toString = "PartialNode(%s)".format(name)
+}
+
 case class DataNode(data: String) extends AbstractNode {
   override def toString =
     "DataNode(len=%d, %s)".format(data.size, super.toString)
@@ -53,6 +57,8 @@ object TheNodeFactory extends NodeFactory {
     InvertedSectionNode(name)
   def newInterpolationNode(name: String) =
     InterpolationNode(name, true)
+  def newPartialNode(name: String) =
+    PartialNode(name)
   def newUnescapedInterpolationNode(name: String) =
     InterpolationNode(name, false)
   def newDataNode(data: String) =

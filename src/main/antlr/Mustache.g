@@ -35,6 +35,7 @@ body : Data { root.addChild(nodeFactory.newDataNode($Data.text)); };
 mustache
     : interpolation
     | unescapedInterpolation
+    | partial
     | section
     | invertedSection
     | comment
@@ -46,13 +47,18 @@ unescapedInterpolation
       }
     ;
 
-
 interpolation
     : LL Id RR {
         root.addChild(nodeFactory.newInterpolationNode($Id.text));
       }
     | LL Amp Id RR {
         root.addChild(nodeFactory.newUnescapedInterpolationNode($Id.text));
+      }
+    ;
+
+partial
+    : LL Gt Id RR {
+        root.addChild(nodeFactory.newPartialNode($Id.text));
       }
     ;
 
@@ -92,6 +98,7 @@ Hash  : { inTag }?=> '#' ;
 Amp	  : { inTag }?=> '&' ;
 Hat	  : { inTag }?=> '^' ;
 Bang  : { inTag }?=> '!' ;
+Gt    : { inTag }?=> '>' ;
 Ws	  : { inTag }?=> ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+
         { $channel = HIDDEN; };
 

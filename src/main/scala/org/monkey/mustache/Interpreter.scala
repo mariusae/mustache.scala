@@ -52,6 +52,11 @@ object Eval {
 
         if (doEscape) escape(data) else data
 
+      case PartialNode(name) =>
+        dictionary.getPartial(name) map { mustache =>
+          mustache(dictionary)
+        } getOrElse ""
+
       case DataNode(data) => data
     }
   }

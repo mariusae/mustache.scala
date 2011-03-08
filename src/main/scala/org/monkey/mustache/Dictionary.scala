@@ -2,8 +2,12 @@ package org.monkey.mustache
 
 /**
  * Dictionaries encapsulate variable mapping & lookup. We enforce
- * structure here: keys can only be data values or further mappings.
+ * structure here: keys can only be data values or further
+ * mappings. Dictionaries have separate namespaces for variables and
+ * partials.
  */
+
+// TODO: should these two concepts be separated?
 
 object Dictionary {
   /**
@@ -14,9 +18,10 @@ object Dictionary {
 
 case class Dictionary private(
   private val mappings: Map[String, Value],
+  private val partials: Map[String, Mustache],
   private val parent: Option[Dictionary])
 {
-  def this(mappings: Map[String, Value]) = this(mappings, None)
+  def this(mappings: Map[String, Value]) = this(mappings, Map(), None)
 
   /**
    * Add data with the key @name@ to this dictionary.
@@ -26,6 +31,9 @@ case class Dictionary private(
 
   def bool(name: String, value: Boolean) =
     copy(mappings = mappings + (name -> Bool(value)))
+
+  def partial(name: String, mustache: Mustache) =
+    copy(partials = partials + (name -> mustache))
 
   /**
    * Add a dictionary with the key @name@. There may be multiple
@@ -52,6 +60,13 @@ case class Dictionary private(
 
     mapping getOrElse NoValue
   }
+
+  /**
+   * Look up a partial in the dictionary. This is special and in a
+   * different namespace from variables.
+   */
+  def getPartial(name: String): Option[Mustache] =
+    partials.get(name) orElse { parent flatMap { _.getPartial(name) } }
 
   /**
    * Push the lookup stack with the given @name@, returning the

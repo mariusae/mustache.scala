@@ -120,4 +120,16 @@ object MustacheSpec extends Specification {
       eval("hello{{! hey hey there}}", Dictionary()) must be_==("hello")
     }
   }
+
+  "partials" should {
+    "inline" in {
+      val d = Dictionary()
+        .partial("foopartial", new Mustache("hello {{world}}"))
+        .data("world", "THERE!")
+
+      eval("one {{world}} and {{> foopartial}}", d) must be_==(
+        "one THERE! and hello THERE!"
+      )
+    }
+  }
 }

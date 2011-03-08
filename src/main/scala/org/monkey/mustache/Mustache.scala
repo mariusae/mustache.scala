@@ -29,6 +29,8 @@ class Mustache(source: Source) {
     parser.root
   }
 
+  def this(stringSource: String) = this(Source.fromString(stringSource))
+
   /**
    * Evaluates this mustache relative to the passed-in dictionary.
    */
