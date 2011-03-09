@@ -26,11 +26,11 @@ object Eval {
         dictionary(name) match {
           case Dictionaries(_) =>
             dictionary.push(name) flatMap { dictionary =>
-              node map (Eval(_, dictionary))
+              node map { Eval(_, dictionary) }
             } mkString
 
           case Bool(true) | Data(_) =>
-            node map (Eval(_, dictionary)) mkString
+            node map { Eval(_, dictionary) } mkString
 
           case Bool(false) | NoValue=>
             ""
@@ -39,7 +39,7 @@ object Eval {
       case InvertedSectionNode(name) =>
         dictionary(name) match {
           case NoValue | Bool(false) =>
-            node map (Eval(_, dictionary)) mkString
+            node map { Eval(_, dictionary) } mkString
           case _ =>
             ""
         }
