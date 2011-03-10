@@ -8,6 +8,12 @@ object MustacheSpec extends Specification {
   def eval(mustache: String, dictionary: Dictionary): String = 
     (new Mustache(Source.fromString(mustache)))(dictionary)
 
+  "data" should {
+    "not interpret single '{'s" in {
+      (new Mustache("{"))(Dictionary()) must be_==("{")
+    }
+  }
+  
   "basic interpolation" should {
     val mustache = "hello {{world}}!"
     "substitute as expected" in {

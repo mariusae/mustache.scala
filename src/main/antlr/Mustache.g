@@ -30,6 +30,10 @@ document :
     | mustache
     )*;
 
+/**
+ * TODO: figure out how to get ``Data+'' to work here -- this way we
+ * don't do a character-at-a-time.
+ */
 body : Data { root.addChild(nodeFactory.newDataNode($Data.text)); };
 
 mustache
@@ -102,4 +106,5 @@ Gt    : { inTag }?=> '>' ;
 Ws	  : { inTag }?=> ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+
         { $channel = HIDDEN; };
 
-Data  : { !inTag }?=> (~'{')+ ;
+Data  : { !inTag }?=> . ;
+
