@@ -24,7 +24,7 @@ object DictionarySpec extends Specification {
     "look up the stack" in {
       val dd = d.data("hey", "lower").dictionary(
         "dict", Dictionary().data("hey", "upper"))
-      
+
       dd("hey") must be_==(Data("lower"))
       dd.push("dict") must haveSize(1)
       dd.push("dict").head("hey") must be_==(Data("upper"))

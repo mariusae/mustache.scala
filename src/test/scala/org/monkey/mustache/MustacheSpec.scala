@@ -5,7 +5,7 @@ import io.Source
 import org.specs.Specification
 
 object MustacheSpec extends Specification {
-  def eval(mustache: String, dictionary: Dictionary): String = 
+  def eval(mustache: String, dictionary: Dictionary): String =
     (new Mustache(Source.fromString(mustache)))(dictionary)
 
   "data" should {
@@ -13,7 +13,7 @@ object MustacheSpec extends Specification {
       (new Mustache("{"))(Dictionary()) must be_==("{")
     }
   }
-  
+
   "basic interpolation" should {
     val mustache = "hello {{world}}!"
     "substitute as expected" in {
@@ -53,7 +53,7 @@ object MustacheSpec extends Specification {
         Dictionary().data("true_value", "true"),
         Dictionary().bool("false_value", false)
       )
-      
+
       dictionaries foreach { d =>
         (eval("{{#false_value}}something here{{/false_value}}outside", d)
          must be_==("outside"))

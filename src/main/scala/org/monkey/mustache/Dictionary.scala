@@ -39,13 +39,29 @@ case class Dictionary private(
    * Add a dictionary with the key @name@. There may be multiple
    * dictionaries with the same name.
    */
-  def dictionary(name: String, value: Dictionary) =
+  def dictionary(name: String, value: Dictionary) = {
     this(name) match {
       case Dictionaries(dicts) =>
         copy(mappings = mappings + (name -> Dictionaries(dicts ++ Seq(value))))
       case _ =>
         copy(mappings = mappings + (name -> Dictionaries(Seq(value))))
     }
+  }
+
+  /**
+   * Add multiple dictionaries with the key @name@.
+   */
+  def dictionaries(name: String, value: Seq[Dictionary]) = {
+    this(name) match {
+      case Dictionaries(dicts) =>
+        copy(mappings = mappings + (name -> Dictionaries(dicts ++ value)))
+      case _ =>
+        copy(mappings = mappings + (name -> Dictionaries(value)))
+    }
+  }
+
+  def value(name: String, value: Value) =
+    copy(mappings = mappings + (name -> value))
 
   /**
    * Look up the dictionary value with key @name@. This looks up the
@@ -53,12 +69,10 @@ case class Dictionary private(
    * search yields no mapping.
    */
   def apply(name: String): Value = {
-    val mapping = mappings.get(name) match {
+    mappings.get(name) match {
       case v@Some(_) => v
-      case None => parent map { _(name) }
+      case None => parent map { _(name) } getOrElse NoValue
     }
-
-    mapping getOrElse NoValue
   }
 
   /**
@@ -93,7 +107,7 @@ sealed trait Value {
     case v@Data(_) => Some(v)
     case _ => None
   }
-  
+
   def getDictionaries = this match {
     case d@Dictionaries(_) => Some(d)
     case _ => None
