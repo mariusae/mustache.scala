@@ -5,7 +5,7 @@ package org.monkey.mustache
  */
 
 import io.Source
-
+import java.io.Writer
 import org.antlr.runtime._
 
 /**
@@ -34,5 +34,16 @@ class Mustache(source: Source) {
   /**
    * Evaluates this mustache relative to the passed-in dictionary.
    */
-  def apply(dictionary: Dictionary): String = Eval(root, dictionary)
+  def apply(dictionary: Dictionary): String = apply(dictionary, new Eval)
+
+  /**
+   * Evaluates this mustache relative to the passed-in dictionary.
+   */
+  def apply(dictionary: Dictionary, eval: Eval): String = eval(root, dictionary)
+
+  /**
+   * Evaluates this mustache relative to the passed-in dictionary, writing the
+   * output to @out@.
+   */
+  def apply(dictionary: Dictionary, eval: Eval, out: Writer) = eval(root, dictionary, out)
 }
