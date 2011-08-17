@@ -53,4 +53,4 @@ changed (`src/main/antlr/Mustache.g`).
 lines:
 
     val monkeyRepo = "monkey.org" at "http://monkey.org/~marius/maven"
-    val mustache = "org.monkey" % "mustache" % "1.0"
+    val mustache = "org.monkey" % "mustache" % "1.0.3"
