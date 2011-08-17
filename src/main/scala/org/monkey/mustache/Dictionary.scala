@@ -70,7 +70,7 @@ case class Dictionary private(
    */
   def apply(name: String): Value = {
     mappings.get(name) match {
-      case v@Some(_) => v
+      case Some(v) => v
       case None => parent map { _(name) } getOrElse NoValue
     }
   }
