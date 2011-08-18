@@ -33,6 +33,11 @@ The string is then rendered with `Mustache.apply`
         
     scala> mustache(d)
     res4: String = hello, world! yes?iter0iter1
+    
+The mustache AST is available to the application developer, so
+she may provider her own interpreter. This is useful, for example, 
+to give the template access to an object graph directly instead
+of the default `Dictionary` implementation.
 
 # development
 
