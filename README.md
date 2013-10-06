@@ -41,9 +41,8 @@ of the default `Dictionary` implementation.
 
 # maven / sbt
 
-`mustache.scala` is published to the maven repo at
-`http://monkey.org/~marius/maven`.  To use with sbt, add the following
-lines:
+`mustache.scala` is published to the maven central repo.  To use with sbt,
+add the following lines:
 
-    val monkeyRepo = "monkey.org" at "http://monkey.org/~marius/maven"
-    val mustache = "org.monkey" % "mustache" % "1.0.3"
+    val mustache = "org.monkey" % "mustache" % "1.0.4-SNAPSHOT"
+
