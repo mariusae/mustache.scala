@@ -1,7 +1,7 @@
 default: push
 
 publocal:
-	sbt clean clean-lib update compile-antlr publish-release
+	sbt clean publish
 
 push: publocal
 	rsync -avz -e ssh publish/* monkey.org:Public/html/maven/

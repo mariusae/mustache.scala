@@ -39,18 +39,6 @@ she may provider her own interpreter. This is useful, for example,
 to give the template access to an object graph directly instead
 of the default `Dictionary` implementation.
 
-# development
-
-`mustache.scala` uses [ANTLR](http://www.antlr.org/) for parsing. This
-requires source files to be generated. Thus, the slightly modified
-`sbt` routine is necessary:
-
-    $ sbt update
-    $ sbt compile-antlr
-
-This only needs to be run initially, and whenever the grammar has
-changed (`src/main/antlr/Mustache.g`).
-
 # maven / sbt
 
 `mustache.scala` is published to the maven repo at
